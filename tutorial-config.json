@@ -1,0 +1,9 @@
+{
+  "files": [
+    "send-sms.js"
+  ],
+  "panels": [
+    "terminal"
+  ],
+  "version": "0.8.0"
+}
