@@ -167,7 +167,11 @@ function buyPhoneNumber(data){
 //   });
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 async function updatePhoneNumber(number) {
+  console.log('Adding phone number to application...');
   const options = {
     msisdn: number.msisdn,
     voiceCallbackType: 'app',
@@ -177,6 +181,7 @@ async function updatePhoneNumber(number) {
     voiceStatusCallback: `https://${process.env.CODESPACE_NAME}.github.dev/webhooks/event`,
     moHttpUrl: `https://${process.env.CODESPACE_NAME}.github.dev/webhooks/inbound`
   };
+  await sleep(10000);
 
   const resp = await vonage.numbers.updateNumber(options);
   if (resp.errorCode) {
