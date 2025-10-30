@@ -249,7 +249,7 @@ VONAGE_APPLICATION_NAME="${process.env.VONAGE_APPLICATION_NAME}"
 VONAGE_APPLICATION_ID="${process.env.VONAGE_APPLICATION_ID}"
 COUNTRY_CODE="${process.env.COUNTRY_CODE}"
 VONAGE_NUMBER="${process.env.VONAGE_NUMBER}"
-VONAGE_PRIVATE_KEY="./private.key";
+VONAGE_PRIVATE_KEY="./private.key"
 VONAGE_PRIVATE_KEY64="${process.env.VONAGE_PRIVATE_KEY64}"`;
   
   fs.writeFile(__dirname + '/.env', contents, (err) => {
