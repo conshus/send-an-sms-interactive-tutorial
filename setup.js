@@ -150,7 +150,7 @@ async function updatePhoneNumber(number) {
   const options = {
     country: process.env.COUNTRY_CODE,
     msisdn: number.msisdn,
-    app_id: process.env.API_APPLICATION_ID,
+    app_id: process.env.VONAGE_APPLICATION_ID,
   };
 
   const resp = await vonage.numbers.updateNumber(options);
@@ -210,7 +210,7 @@ function createApp(data) {
       }
   }).then((app) => {
       console.log('Application created with ID: ', app.id);
-      process.env.API_APPLICATION_ID = app.id;
+      process.env.VONAGE_APPLICATION_ID = app.id;
       fs.writeFile(__dirname + '/private.key', app.keys.private_key, (err) => {
         if (err) {
           console.log('Error writing private key: ', err);
@@ -221,7 +221,7 @@ function createApp(data) {
             console.log('Converting private key to base64...');
             const privateKey = fs.readFileSync(__dirname + '/private.key');
             const base64PrivateKey = privateKey.toString('base64');
-            process.env.PRIVATE_KEY64 = base64PrivateKey;
+            process.env.VONAGE_PRIVATE_KEY64 = base64PrivateKey;
 
             //Search and Buy phone number
             process.env.VONAGE_APPLICATION_NAME = data.toString().replace(/\n/g, '');
@@ -243,15 +243,14 @@ function createApp(data) {
 }
 
 function writeEnv() {
-  const contents = `ADMIN_NAME="${process.env.ADMIN_NAME}"
-ADMIN_PASSWORD="${process.env.ADMIN_PASSWORD}"
-VONAGE_API_KEY="${process.env.VONAGE_API_KEY}"
+  const contents = `VONAGE_API_KEY="${process.env.VONAGE_API_KEY}"
 VONAGE_API_SECRET="${process.env.VONAGE_API_SECRET}"
 VONAGE_APPLICATION_NAME="${process.env.VONAGE_APPLICATION_NAME}"
-API_APPLICATION_ID="${process.env.API_APPLICATION_ID}"
+VONAGE_APPLICATION_ID="${process.env.VONAGE_APPLICATION_ID}"
 COUNTRY_CODE="${process.env.COUNTRY_CODE}"
 VONAGE_NUMBER="${process.env.VONAGE_NUMBER}"
-PRIVATE_KEY64="${process.env.PRIVATE_KEY64}"`;
+VONAGE_PRIVATE_KEY="./private.key";
+VONAGE_PRIVATE_KEY64="${process.env.VONAGE_PRIVATE_KEY64}"`;
   
   fs.writeFile(__dirname + '/.env', contents, (err) => {
     if (err) {
@@ -269,8 +268,8 @@ function createUser() {
   const vonage = new Vonage({
   apiKey: process.env.VONAGE_API_KEY,
   apiSecret: process.env.VONAGE_API_SECRET,
-  applicationId: process.env.API_APPLICATION_ID,
-  privateKey: __dirname + process.env.PRIVATE_KEY
+  applicationId: process.env.VONAGE_APPLICATION_ID,
+  privateKey: __dirname + process.env.VONAGE_PRIVATE_KEY
   }, {debug: false});
   vonage.users.create({
       name: process.env.ADMIN_NAME,
