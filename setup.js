@@ -283,5 +283,4 @@ function createUser() {
         process.exit();
       }
   });
-
 }

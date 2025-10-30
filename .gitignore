@@ -7,3 +7,4 @@ node_modules/
 
 # Private key
 private.key
+setup copy.js
